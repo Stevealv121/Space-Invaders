@@ -73,6 +73,33 @@ public class LinkedList<T> extends List<T>{
         return true;
     }
 
+    public boolean removeAtPos(int pos){
+        Node temp = head;
+        int i = 0;
+
+        if(head==null){
+            return false;
+        }
+
+        if(pos==0){
+            head = head.next;
+            size--;
+            return false;
+        }
+        i++;
+
+        while (temp.next != null){
+            if (i == pos){
+                temp.next = temp.next.next;
+                size--;
+            }else{
+                temp = temp.next;
+                i++;
+            }
+        }
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

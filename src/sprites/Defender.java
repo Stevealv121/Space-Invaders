@@ -39,6 +39,8 @@ public class Defender{
 
     private boolean right;
 
+    private boolean fire;
+
     /**
      * Constructor de la nave defensora.
      * @param image Imagen de la nave.
@@ -54,12 +56,28 @@ public class Defender{
 
     }
 
+    public double getPosX() {
+        return posX;
+    }
+
+    public double getPosY() {
+        return posY;
+    }
+
     public void setLeft(boolean left) {
         this.left = left;
     }
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public boolean isFire() {
+        return fire;
+    }
+
+    public void setFire(boolean fire) {
+        this.fire = fire;
     }
 
     /**

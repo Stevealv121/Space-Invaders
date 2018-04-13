@@ -1,9 +1,11 @@
 package gamecore;
 
+import adt.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import sprites.Bullet;
 import sprites.Defender;
 
 /**
@@ -21,6 +23,11 @@ public class FirstLevel extends GameEngine{
     private Defender player;
 
     /**
+     * Balas del juego.
+     */
+    private LinkedList<Bullet> bullets;
+
+    /**
      * Contructor del primer nivel.
      * @param firstLevelPane Almacena el Nivel 1.
      */
@@ -33,12 +40,15 @@ public class FirstLevel extends GameEngine{
         BackgroundImage bgImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         pane.setBackground(new Background(bgImage));
+
+        bullets = new LinkedList<>();
     }
 
     /**
      * Control NaveJugador
      * Oprimir tecla "IZQUIERDA".
      * Oprimir tecla "DERECHA".
+     * Oprimir tecla "ESPACIO".
      */
     @Override
     public void update() {
@@ -58,8 +68,17 @@ public class FirstLevel extends GameEngine{
                 player.setRight(false);
             if (key.getCode() == KeyCode.LEFT)
                 player.setLeft(false);
+            if (key.getCode() == KeyCode.SPACE)
+                bullets.add(new Bullet(new Image("images/laser.png"),player.getPosX(),
+                        player.getPosY(),15));
         });
 
+        if(player.isFire()) {
+            bullets.add(new Bullet(new Image("images/laser.png"),player.getPosX(),
+                    player.getPosY(),15));
+            player.setFire(false);
+        }
+        updateBullets();
         player.update();
     }
 
@@ -72,5 +91,20 @@ public class FirstLevel extends GameEngine{
         gc.clearRect(0 , 0, 800, 600);
 
         player.render(gc);
+
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.getAtPos(i).render(gc);
+        }
+    }
+
+    public void updateBullets(){
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet fire = bullets.getAtPos(i);
+
+            if (fire.getPosY() < -15) {
+                bullets.removeAtPos(i);
+            }
+            fire.update();
+        }
     }
 }
