@@ -1,31 +1,49 @@
+
+import gamecore.SpaceInvadersGame;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
+/**
+ * Clase Main, aloja la ejecucion de la aplicacion.
+ */
 public class Main extends Application{
 
-    private static final double WIDTH = 800;
-    private static final double HEIGHT = 600;
+    /**
+     * Atributo en el cual se instancia el juego.
+     */
+    private SpaceInvadersGame game = new SpaceInvadersGame();
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Inicia la aplicacion.
+     * @param primaryStage Lugar donde se desarrolla el juego.
+     */
     @Override
-    public void start(Stage stage){
+    public void start(Stage primaryStage){
 
-        stage.setTitle("Space Invaders");
-        AnchorPane root = new AnchorPane();
-        Image background = new Image("images/background6.jpg");
-        root.setBackground(new Background(new BackgroundImage(background,
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,null)));
-        Scene scene = new Scene(root,WIDTH,HEIGHT);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        primaryStage = game.getStage();
+
+        primaryStage.setTitle("Space Invaders");
+
+        Image icon = new Image(getClass().getResourceAsStream("images/icon.png"));
+        primaryStage.getIcons().add(icon);
+
+        primaryStage.show();
+
+        new AnimationTimer(){
+            @Override
+            public void handle(long now) {
+                game.init();
+            }
+        }.start();
 
     }
+
+
 }
