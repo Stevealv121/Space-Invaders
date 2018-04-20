@@ -148,45 +148,45 @@ public class ThirdLevel extends GameEngine{
         }
     }
 
-    private void checkCollisionAtLevel3(IList<Invader> EnemyList){
+    private void checkCollisionAtLevel3(IList<Invader> invaderList){
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.getAtPos(i);
 
-            for (int j = 0; j < EnemyList.size(); j++) {
-                if (bullet.isColliding(EnemyList.getAtPos(j))){
-                    if (EnemyList.getAtPos(j).getLife() != 1)
-                        EnemyList.getAtPos(j).setLife(EnemyList.getAtPos(j).getLife() - 1);
+            for (int j = 0; j < invaderList.size(); j++) {
+                if (bullet.isColliding(invaderList.getAtPos(j))){
+                    if (invaderList.getAtPos(j).getLife() != 1)
+                        invaderList.getAtPos(j).setLife(invaderList.getAtPos(j).getLife() - 1);
                     else {
-                        if (EnemyList.getType().equals("ClassD") || EnemyList.getType().equals("ClassE")){
-                            boolean isBoss = EnemyList.getAtPos(j).getInvaderType().equals("Boss");
+                        if (invaderList.getType().equals("ClassD") || invaderList.getType().equals("ClassE")){
+                            boolean isBoss = invaderList.getAtPos(j).getInvaderType().equals("Boss");
                             int toReplace = 0;
 
-                            EnemyList.removeAtPos(j);
-                            if(EnemyList.getType().equals("ClassE"))
-                                toReplace = (EnemyList.size() - (EnemyList.size() + 1) / 2);
+                            invaderList.removeAtPos(j);
+                            if(invaderList.getType().equals("ClassE"))
+                                toReplace = (invaderList.size() - (invaderList.size() + 1) / 2);
 
                             if (isBoss) {
-                                EnemyList.getAtPos(toReplace).setInvaderType("Boss");
+                                invaderList.getAtPos(toReplace).setInvaderType("Boss");
                             }
                         }
-                        else if (EnemyList.getType().equals("ClassC")){
-                            boolean isBoss = EnemyList.getAtPos(j).getInvaderType().equals("Boss");
-                            EnemyList.removeAtPos(j);
+                        else if (invaderList.getType().equals("ClassC")){
+                            boolean isBoss = invaderList.getAtPos(j).getInvaderType().equals("Boss");
+                            invaderList.removeAtPos(j);
                             if(isBoss)
-                                doSwitch(EnemyList, "ClassC");
+                                doSwitch(invaderList, "ClassC");
                         }
-                        else if (EnemyList.getType().equals("ClassB") && EnemyList.getAtPos(j).getInvaderType().equals("Boss")){
+                        else if (invaderList.getType().equals("ClassB") && invaderList.getAtPos(j).getInvaderType().equals("Boss")){
                             current++;
                         }
                         else{
-                            EnemyList.removeAtPos(j);
+                            invaderList.removeAtPos(j);
                         }
 
                     }
                     bullets.removeAtPos(i);
 
-                    if (!EnemyList.getType().equals("ClassE"))
-                        keepSorted(EnemyList);
+                    if (!invaderList.getType().equals("ClassE"))
+                        keepSorted(invaderList);
                 }
             }
         }
