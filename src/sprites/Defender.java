@@ -1,7 +1,10 @@
 package sprites;
 
+import adt.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Clase Jugador
@@ -41,14 +44,19 @@ public class Defender{
 
     private boolean fire;
 
+    private Image imageLeft;
+    private Image imageRight;
+
     /**
      * Constructor de la nave defensora.
      * @param image Imagen de la nave.
      * @param x Posicion de la nave en X.
      * @param y Posicion de la nave en Y.
      */
-    public Defender(Image image,double x, double y) {
+    public Defender(Image image, Image imageLeft, Image imageRight, double x, double y) {
         this.image = image;
+        this.imageLeft = imageLeft;
+        this.imageRight = imageRight;
         this.speed = 5;
         this.width = image.getWidth();
         this.posX = x;
@@ -102,8 +110,64 @@ public class Defender{
      */
     public void render(GraphicsContext gc) {
 
-        gc.drawImage(image, posX, posY);
+        if(left){
+            gc.drawImage(imageLeft, posX,posY);
+        }
+        if(right){
+            gc.drawImage(imageRight, posX,posY);
+        }else{
+            gc.drawImage(image, posX, posY);
+        }
 
+
+    }
+    /**
+     * Movimiento jugador:
+     * Controles:
+     * LEFT - Mover hacia izquierda
+     * RIGHT - Mover hacia derecha
+     * SPACE - Disparar
+     */
+    public void controllingDefender(AnchorPane anchorPane, Defender player, LinkedList<Bullet> bullets){
+
+        anchorPane.getScene().setOnKeyPressed(key -> {
+            if (key.getCode() == KeyCode.LEFT) {
+                player.setLeft(true);
+            }
+            if (key.getCode() == KeyCode.RIGHT) {
+                player.setRight(true);
+            }
+        });
+
+        anchorPane.getScene().setOnKeyReleased(key -> {
+            if (key.getCode() == KeyCode.RIGHT) {
+                player.setRight(false);
+            }
+            if (key.getCode() == KeyCode.LEFT) {
+                player.setLeft(false);
+            }
+            if (key.getCode() == KeyCode.SPACE)
+                bullets.add(new Bullet( new Image("images/laser.png"),player.getPosX(), player.getPosY(), 15));
+        });
+
+        if(player.isFire()) {
+            bullets.add(new Bullet( new Image("images/laser.png"),player.getPosX(), player.getPosY(), 15));
+            player.setFire(false);
+        }
+    }
+
+    /**
+     * Actualiza balas
+     */
+    public void updateBullets(LinkedList<Bullet> bullets){
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet shoot = bullets.getAtPos(i);
+
+            if (shoot.getPosY() < -15) {
+                bullets.removeAtPos(i);
+            }
+            shoot.update();
+        }
     }
 
 

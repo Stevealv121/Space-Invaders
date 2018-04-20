@@ -15,6 +15,7 @@
 # Package Files #
 *.jar
 *.war
+*.nar
 *.ear
 *.zip
 *.tar.gz
@@ -24,7 +25,5 @@
 hs_err_pid*
 
 .idea/
-DOCUMENTACION.docx
+DOCUMENTACION.pdf
 Space Invaders.iml
-
-

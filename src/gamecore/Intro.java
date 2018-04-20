@@ -3,11 +3,17 @@ package gamecore;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Pantalla inicial.
@@ -16,7 +22,7 @@ public class Intro extends GameEngine{
     /**
      * Contiene la pantalla incial.
      */
-    private AnchorPane pane;
+    private AnchorPane anchorPane;
     /**
      * Principal Stage.
      */
@@ -33,14 +39,30 @@ public class Intro extends GameEngine{
      * @param firstLevelScene Scene del nivel 1.
      */
     public Intro(AnchorPane introPane, Stage primaryStage, Scene firstLevelScene){
-        this.pane = introPane;
+        this.anchorPane = introPane;
         this.primaryStage = primaryStage;
         this.firstStageScene = firstLevelScene;
 
-        Image background = new Image("images/background6.jpg");
-        BackgroundImage bgImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-        pane.setBackground(new Background(bgImage));
+        makeBackground(anchorPane);
+
+        Image logoImage = new Image("images/logo1.png",600,350,true,false);
+        ImageView logo = new ImageView(logoImage);
+        logo.setX(100);
+        logo.setY(40);
+
+        anchorPane.getChildren().add(logo);
+
+        Label introLabel = new Label();
+        introLabel.setText("Presiona ENTER para iniciar");
+        try {
+            introLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),20));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        introLabel.setTranslateX(220);
+        introLabel.setTranslateY(450);
+        introLabel.setTextFill(Color.valueOf("F8FFFD"));
+        anchorPane.getChildren().add(introLabel);
 
         startGame();
     }
@@ -66,7 +88,7 @@ public class Intro extends GameEngine{
      */
     @Override
     public void update() {
-        pane.getScene().setOnKeyPressed(
+        anchorPane.getScene().setOnKeyPressed(
                 (keyEvent)->{
                     if(keyEvent.getCode()==KeyCode.ENTER){
                         System.out.println("works");

@@ -1,8 +1,15 @@
 package sprites;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
+import java.io.File;
 
+/**
+ * Clase Bala
+ * Creada por la nave defensora.
+ */
 public class Bullet {
 
     /**
@@ -36,12 +43,14 @@ public class Bullet {
     private double height;
 
     /**
-     * Constructor de la nave defensora.
-     * @param image Imagen de la nave.
-     * @param x Posicion de la nave en X.
-     * @param y Posicion de la nave en Y.
+     * Constructor de la bala.
+     * @param image Imagen de la bala.
+     * @param x Posicion de la bala en X.
+     * @param y Posicion de la bala en Y.
+     * @param speed velocidad bala.
      */
-    public Bullet(Image image,double x, double y, double speed) {
+
+    Bullet(Image image, double x, double y, double speed) {
         this.image = image;
         this.speed = speed;
         this.width = image.getWidth();
@@ -50,6 +59,17 @@ public class Bullet {
         this.posY = y-21;
         this.dy = -speed;
 
+        playShootSound();
+
+    }
+
+    /**
+     * Reproduce el sonido del disparo.
+     */
+    private void playShootSound(){
+
+        AudioClip shootSound = new AudioClip(new File("src/sounds/shoot.wav").toURI().toString());
+        shootSound.play();
     }
 
     public double getPosY() {
@@ -70,6 +90,23 @@ public class Bullet {
     public void render(GraphicsContext gc) {
 
         gc.drawImage(image, posX, posY);
-
     }
+
+    /**
+     * Forma un rectangulo con respecto al alto y ancho del sprite.
+     * @return Reactangulo Bala.
+     */
+    private Rectangle2D getFronter() {
+        return new Rectangle2D(posX, posY, width, height);
+    }
+
+    /**
+     * Revisa la colision de la bala.
+     * @param invader Enemigo.
+     * @return true si la bala esta chocando con un enemigo.
+     */
+    public boolean isColliding(Invader invader){
+        return invader.getFronter().intersects(this.getFronter());
+    }
+
 }

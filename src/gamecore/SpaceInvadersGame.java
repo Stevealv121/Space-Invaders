@@ -30,6 +30,15 @@ public class SpaceInvadersGame{
     private Canvas canvas;
 
     /**
+     * Canvas2: Campo para dibujar.
+     */
+    private Canvas canvas2;
+    /**
+     * Canvas3: Campo para dibujar.
+     */
+    private Canvas canvas3;
+
+    /**
      * Lista para almacenar cada nivel.
      */
     private LinkedList<GameEngine> levelList;
@@ -46,37 +55,69 @@ public class SpaceInvadersGame{
      */
     public SpaceInvadersGame() {
 
-        AnchorPane introPane = new AnchorPane();
-        AnchorPane firstStagePane = new AnchorPane();
-        Scene menuScene = new Scene(introPane, WIDTH, HEIGHT);
-        Scene firstStageScene = new Scene(firstStagePane, WIDTH, HEIGHT);
         primaryStage = new Stage();
-        primaryStage.setScene(menuScene);
-        canvas = new Canvas(WIDTH,HEIGHT);
+
+        //Intro
+        AnchorPane introPane = new AnchorPane();
+        Scene introScene = new Scene(introPane, WIDTH, HEIGHT);
+
+        //Nivel1
+        AnchorPane firstStagePane = new AnchorPane();
+        Scene firstStageScene = new Scene(firstStagePane, WIDTH, HEIGHT);
+        canvas = new Canvas(WIDTH, HEIGHT);
         firstStagePane.getChildren().add(canvas);
+
+        //Nivel2
+        AnchorPane secondStagePane = new AnchorPane();
+        Scene secondStageScene = new Scene(secondStagePane, WIDTH, HEIGHT);
+        canvas2 = new Canvas(WIDTH, HEIGHT);
+        secondStagePane.getChildren().add(canvas2);
+
+        //Nivel3
+        AnchorPane thirdStagePane = new AnchorPane();
+        Scene thirdStageScene = new Scene(thirdStagePane, WIDTH, HEIGHT);
+        canvas3 = new Canvas(WIDTH, HEIGHT);
+        thirdStagePane.getChildren().add(canvas3);
+
+
         Intro intro = new Intro(introPane, primaryStage, firstStageScene);
-        FirstLevel firstLevel = new FirstLevel(firstStagePane);
+        FirstLevel firstLevelState = new FirstLevel(firstStagePane, primaryStage, secondStageScene);
+        SecondLevel secondLevelState = new SecondLevel(secondStagePane, primaryStage, thirdStageScene);
+        ThirdLevel thirdLevelState = new ThirdLevel(thirdStagePane);
 
         levelList = new LinkedList<>();
         levelList.add(intro);
-        levelList.add(firstLevel);
+        levelList.add(firstLevelState);
+        levelList.add(secondLevelState);
+        levelList.add(thirdLevelState);
+
+        primaryStage.setScene(introScene);
     }
 
-    /**
-     * Obtiene el Stage principal del juego.
-     * @return primaryStage
-     */
-    public Stage getStage(){
+    public Stage getPrimaryStage(){
         return primaryStage;
     }
 
     /**
-     * Inicia el juego.
+     * Empieza el Juego.
      */
     public void init(){
 
-        gc = canvas.getGraphicsContext2D();
+        chooseCanvas();
         levelList.getAtPos(levelNumber).update();
         levelList.getAtPos(levelNumber).render(gc);
+    }
+
+    /**
+     * Elige el canvas segun el nivel actual.
+     */
+    private void chooseCanvas(){
+
+        if (levelNumber == 1)
+            gc = canvas.getGraphicsContext2D();
+        if (levelNumber == 2)
+            gc = canvas2.getGraphicsContext2D();
+        if (levelNumber == 3)
+            gc = canvas3.getGraphicsContext2D();
     }
 }

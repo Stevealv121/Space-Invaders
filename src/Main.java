@@ -2,7 +2,6 @@
 import gamecore.SpaceInvadersGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -16,6 +15,7 @@ public class Main extends Application{
      */
     private SpaceInvadersGame game = new SpaceInvadersGame();
 
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -27,7 +27,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage){
 
-        primaryStage = game.getStage();
+        primaryStage = game.getPrimaryStage();
 
         primaryStage.setTitle("Space Invaders");
 
