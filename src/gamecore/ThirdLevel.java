@@ -15,7 +15,7 @@ import sprites.Invader;
  */
 public class ThirdLevel extends GameEngine{
     /**
-     * Contiene primer nivel.
+     * Contiene el nivel 3.
      */
     private AnchorPane anchorPane;
 

@@ -20,7 +20,7 @@ import sprites.Invader;
  */
 public class SecondLevel extends GameEngine {
     /**
-     * Contiene primer nivel.
+     * Contiene el nivel 2.
      */
     private AnchorPane anchorPane;
 
