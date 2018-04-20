@@ -166,9 +166,7 @@ public class ThirdLevel extends GameEngine{
                                 toReplace = (EnemyList.size() - (EnemyList.size() + 1) / 2);
 
                             if (isBoss) {
-                                //String[] bossImages = {"resources/AlienBoss1.png","resources/AlienBoss2.png"};
                                 EnemyList.getAtPos(toReplace).setInvaderType("Boss");
-                                //EnemyList.get(toReplace).setImages(bossImages);
                             }
                         }
                         else if (EnemyList.getType().equals("ClassC")){
