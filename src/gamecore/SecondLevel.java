@@ -8,13 +8,20 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  * Nivel 2.
  */
@@ -67,6 +74,17 @@ public class SecondLevel extends GameEngine {
         makeBackground(anchorPane);
         generateRows();
 
+        hilera = new Label();
+        try {
+            hilera.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        hilera.setTranslateX(800-200);
+        hilera.setTranslateY(0);
+        hilera.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(hilera);
+
     }
 
     @Override
@@ -84,6 +102,9 @@ public class SecondLevel extends GameEngine {
         checkCollisionsAtLevel2(invadersMatrix.getAtPos(current));
         player.updateBullets(bullets);
         updateInvaderAtLevel2();
+
+        String currentRow = invadersMatrix.getAtPos(current).getType();
+        hilera.setText("Hilera actual: "+currentRow);
 
     }
 
@@ -188,7 +209,7 @@ public class SecondLevel extends GameEngine {
 
         for (int i = 0; i < 7; i++) {
             invaderList.add(new Invader(new Image(images,67,67,true,false),
-                    80 * i, 0, i, xPos, "Minion"));
+                    80 * i, 30, i, xPos, "Minion"));
             xPos--;
         }
     }
@@ -205,10 +226,10 @@ public class SecondLevel extends GameEngine {
         for (int i = 0; i < 7; i++) {
             if (i == boss)
                 invaderList.add(new Invader(new Image(bossImages,80,77,true,false),
-                        80 * i, 0, i, xPos, "Boss"));
+                        80 * i, 30, i, xPos, "Boss"));
             else
                 invaderList.add(new Invader(new Image(images,67,67,true,false),
-                        80 * i, 0, i, xPos, "Minion"));
+                        80 * i, 30, i, xPos, "Minion"));
             xPos--;
         }
     }

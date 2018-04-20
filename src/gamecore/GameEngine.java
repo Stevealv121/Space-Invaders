@@ -4,6 +4,7 @@ import adt.CircularNode;
 import adt.IList;
 import adt.INode;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import sprites.Invader;
@@ -12,6 +13,8 @@ import sprites.Invader;
  * GameEngine: Motor del juego.
  */
 public abstract class GameEngine {
+
+    Label hilera;
 
     /**
      * Actualiza cada animacion en el juego.

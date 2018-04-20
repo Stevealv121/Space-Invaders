@@ -4,12 +4,19 @@ import adt.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  * Nivel 3.
  */
@@ -46,6 +53,17 @@ public class ThirdLevel extends GameEngine{
         invadersMatrix = new LinkedList<>();
         generateRows();
         makeBackground(anchorPane);
+
+        hilera = new Label();
+        try {
+            hilera.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        hilera.setTranslateX(800-200);
+        hilera.setTranslateY(0);
+        hilera.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(hilera);
     }
 
     @Override
@@ -63,6 +81,9 @@ public class ThirdLevel extends GameEngine{
             Invader.speed += 0.15;
             eRun = true;
         }
+
+        String currentRow = invadersMatrix.getAtPos(current).getType();
+        hilera.setText("Hilera actual: "+currentRow);
     }
 
     @Override
@@ -109,7 +130,7 @@ public class ThirdLevel extends GameEngine{
             boss = (int) (Math.random() * (7));
 
         int xPos = 7;
-        int yPos = 1;
+        int yPos = 30;
         if (invaderList.getType().equals(""))
             yPos = -150;
 
@@ -120,10 +141,11 @@ public class ThirdLevel extends GameEngine{
 
                 if (i == 3)
                     invaderList.add(new Invader(new Image(bossImages,80,75,true,false)
-                            ,80 * i + 110, 1, i, xPos, "Boss"));
+                            ,80 * i + 110, 30
+                             , i, xPos, "Boss"));
                 else {
                     invaderList.add(new Invader(new Image(minionsImages[i],67,67,true,false)
-                            ,80 * i + 110, 1, i, xPos, "Minion"));
+                            ,80 * i + 110, 30, i, xPos, "Minion"));
                     invaderList.getAtPos(i).setLife(life);
                 }
                 xPos--;

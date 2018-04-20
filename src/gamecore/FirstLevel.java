@@ -3,12 +3,19 @@ package gamecore;
 import adt.LinkedList;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Nivel 1.
@@ -63,6 +70,17 @@ public class FirstLevel extends GameEngine{
 
         makeBackground(anchorPane);
         generateRows();
+
+        hilera = new Label();
+        try {
+            hilera.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        hilera.setTranslateX(800-200);
+        hilera.setTranslateY(0);
+        hilera.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(hilera);
     }
 
     /**
@@ -81,7 +99,7 @@ public class FirstLevel extends GameEngine{
             int randomRow = (int) (Math.random() * 2);
 
             if(randomRow == 0)
-                makeBasicClass(invadersMatrix.getAtPos(i), 0.0);
+                makeBasicClass(invadersMatrix.getAtPos(i), 30);
 
             if (randomRow == 1){
                 int randomPos = (int) (Math.random() * 7);
@@ -89,7 +107,7 @@ public class FirstLevel extends GameEngine{
             }
         }
 
-        makeBasicClass(invadersMatrix.getAtPos(4), -150.0);
+        makeBasicClass(invadersMatrix.getAtPos(4), -150);
     }
 
     /**
@@ -108,11 +126,11 @@ public class FirstLevel extends GameEngine{
         for (int i = 0; i < 7; i++) {
             if (i == pos) {
                 invaderList.add(new Invader(new Image(bossImage,80,77,true,false)
-                        ,80 * i, 0, i, xPos, "Boss"));
+                        ,80 * i, 30, i, xPos, "Boss"));
             }
             else{
                 invaderList.add(new Invader(new Image(invaderImage,67,67,true,false),
-                        80 * i, 0, i, xPos, "Minion"));
+                        80 * i, 30, i, xPos, "Minion"));
             }
             xPos--;
         }
@@ -123,12 +141,12 @@ public class FirstLevel extends GameEngine{
      * @param invaderList Lista de enemigos.
      * @param posY Posicion en Y.
      */
-    private void makeBasicClass(LinkedList<Invader> invaderList, double posY){
+    private void makeBasicClass(LinkedList<Invader> invaderList, int posY){
 
         String invaderImage = "images/mship1.png";
 
         int xPos = 7;
-        if (posY != -150.00)
+        if (posY != -150)
             invaderList.setType("Basic");
         else invaderList.setType("");
 
@@ -156,6 +174,9 @@ public class FirstLevel extends GameEngine{
         updateInvaderAtLevel1();
 
         player.update();
+
+        String currentRow = invadersMatrix.getAtPos(current).getType();
+        hilera.setText("Hilera actual: "+currentRow);
     }
 
     /**
