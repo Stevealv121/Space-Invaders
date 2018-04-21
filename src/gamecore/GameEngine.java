@@ -7,7 +7,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import sprites.Invader;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * GameEngine: Motor del juego.
@@ -16,6 +21,7 @@ public abstract class GameEngine {
 
     Label rowLabel;
     Label nextRowLabel;
+    Label levelRow;
 
     /**
      * Actualiza cada animacion en el juego.
@@ -28,6 +34,42 @@ public abstract class GameEngine {
      * @param gc Graphics Context: Dibuja dentro de un canvas mediante un buffer.
      */
     public abstract void render(GraphicsContext gc);
+
+    void makeLabels(AnchorPane anchorPane){
+
+        rowLabel = new Label();
+        try {
+            rowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        rowLabel.setTranslateX(800-200);
+        rowLabel.setTranslateY(0);
+        rowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(rowLabel);
+
+        nextRowLabel = new Label();
+        try {
+            nextRowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        nextRowLabel.setTranslateX(800-200);
+        nextRowLabel.setTranslateY(20);
+        nextRowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(nextRowLabel);
+
+        levelRow = new Label();
+        try {
+            levelRow.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        levelRow.setTranslateX(10);
+        levelRow.setTranslateY(600-30);
+        levelRow.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(levelRow);
+    }
 
     /**
      * Crea el background del juego.

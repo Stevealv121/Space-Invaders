@@ -8,19 +8,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Nivel 2.
@@ -73,28 +68,7 @@ public class SecondLevel extends GameEngine {
         invadersMatrix = new LinkedList<>();
         makeBackground(anchorPane);
         generateRows();
-
-        rowLabel = new Label();
-        try {
-            rowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        rowLabel.setTranslateX(800-200);
-        rowLabel.setTranslateY(0);
-        rowLabel.setTextFill(Color.valueOf("FFFFFF"));
-        anchorPane.getChildren().add(rowLabel);
-
-        nextRowLabel = new Label();
-        try {
-            nextRowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        nextRowLabel.setTranslateX(800-200);
-        nextRowLabel.setTranslateY(20);
-        nextRowLabel.setTextFill(Color.valueOf("FFFFFF"));
-        anchorPane.getChildren().add(nextRowLabel);
+        makeLabels(anchorPane);
 
     }
 
@@ -125,6 +99,9 @@ public class SecondLevel extends GameEngine {
             nextRow += invadersMatrix.getAtPos(current + 1).getType();
 
         nextRowLabel.setText(nextRow);
+
+        String currentLevel = "Nivel 2";
+        levelRow.setText(currentLevel);
 
     }
 
