@@ -94,9 +94,9 @@ public class Bullet {
 
     /**
      * Forma un rectangulo con respecto al alto y ancho del sprite.
-     * @return Reactangulo Bala.
+     * @return Rectangulo Bala.
      */
-    private Rectangle2D getFronter() {
+    private Rectangle2D getFrontier() {
         return new Rectangle2D(posX, posY, width, height);
     }
 
@@ -106,7 +106,7 @@ public class Bullet {
      * @return true si la bala esta chocando con un enemigo.
      */
     public boolean isColliding(Invader invader){
-        return invader.getFronter().intersects(this.getFronter());
+        return invader.getFronter().intersects(this.getFrontier());
     }
 
 }

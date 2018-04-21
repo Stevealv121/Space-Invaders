@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sprites.Bullet;
 import sprites.Defender;
@@ -71,16 +70,27 @@ public class FirstLevel extends GameEngine{
         makeBackground(anchorPane);
         generateRows();
 
-        hilera = new Label();
+        rowLabel = new Label();
         try {
-            hilera.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+            rowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        hilera.setTranslateX(800-200);
-        hilera.setTranslateY(0);
-        hilera.setTextFill(Color.valueOf("FFFFFF"));
-        anchorPane.getChildren().add(hilera);
+        rowLabel.setTranslateX(800-200);
+        rowLabel.setTranslateY(0);
+        rowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(rowLabel);
+
+        nextRowLabel = new Label();
+        try {
+            nextRowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        nextRowLabel.setTranslateX(800-200);
+        nextRowLabel.setTranslateY(20);
+        nextRowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(nextRowLabel);
     }
 
     /**
@@ -176,7 +186,16 @@ public class FirstLevel extends GameEngine{
         player.update();
 
         String currentRow = invadersMatrix.getAtPos(current).getType();
-        hilera.setText("Hilera actual: "+currentRow);
+        rowLabel.setText("Hilera actual: "+currentRow);
+
+        String nextRow = "Siguiente: ";
+
+        if (current + 1 >= invadersMatrix.size())
+            nextRow += "";
+        else
+            nextRow += invadersMatrix.getAtPos(current + 1).getType();
+
+        nextRowLabel.setText(nextRow);
     }
 
     /**

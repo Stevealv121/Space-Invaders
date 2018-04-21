@@ -14,7 +14,8 @@ import sprites.Invader;
  */
 public abstract class GameEngine {
 
-    Label hilera;
+    Label rowLabel;
+    Label nextRowLabel;
 
     /**
      * Actualiza cada animacion en el juego.

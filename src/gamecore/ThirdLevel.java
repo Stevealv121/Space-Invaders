@@ -54,16 +54,27 @@ public class ThirdLevel extends GameEngine{
         generateRows();
         makeBackground(anchorPane);
 
-        hilera = new Label();
+        rowLabel = new Label();
         try {
-            hilera.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+            rowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        hilera.setTranslateX(800-200);
-        hilera.setTranslateY(0);
-        hilera.setTextFill(Color.valueOf("FFFFFF"));
-        anchorPane.getChildren().add(hilera);
+        rowLabel.setTranslateX(800-200);
+        rowLabel.setTranslateY(0);
+        rowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(rowLabel);
+
+        nextRowLabel = new Label();
+        try {
+            nextRowLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        nextRowLabel.setTranslateX(800-200);
+        nextRowLabel.setTranslateY(20);
+        nextRowLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(nextRowLabel);
     }
 
     @Override
@@ -72,6 +83,7 @@ public class ThirdLevel extends GameEngine{
         player.controllingDefender(anchorPane,player,bullets);
         player.updateBullets(bullets);
         player.update();
+
 
         updateInvaderAtLevel3();
         checkCollisionAtLevel3(invadersMatrix.getAtPos(current));
@@ -83,7 +95,16 @@ public class ThirdLevel extends GameEngine{
         }
 
         String currentRow = invadersMatrix.getAtPos(current).getType();
-        hilera.setText("Hilera actual: "+currentRow);
+        rowLabel.setText("Hilera actual: "+currentRow);
+
+        String nextRow = "Siguiente: ";
+
+        if (current + 1 >= invadersMatrix.size())
+            nextRow += "";
+        else
+            nextRow += invadersMatrix.getAtPos(current + 1).getType();
+
+        nextRowLabel.setText(nextRow);
     }
 
     @Override
@@ -233,6 +254,7 @@ public class ThirdLevel extends GameEngine{
                 if (invaderList.getAtPos(i).getInvaderType().equals("Boss")){
                     bossPos = i;
                     break;
+
                 }
                 xPos--;
             }
