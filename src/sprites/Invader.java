@@ -57,6 +57,10 @@ public class Invader {
      * Limite de movimientos hacia la derecha
      */
     private double movesToRight;
+    /**
+     * Puntaje segun enemigo.
+     */
+    private int score;
 
     private boolean right = true;
     private boolean left;
@@ -77,8 +81,10 @@ public class Invader {
         this.height = image.getHeight();
         setPosition(x,y, movesToRight, movesToLeft);
         this.invaderType = invaderType;
+        this.score = 100;
         if (invaderType.equals("Boss")) {
             life = 7;
+            this.score = 500;
         }
     }
 
@@ -106,11 +112,11 @@ public class Invader {
     public void bossUpdate(int limitLeft, int limitRight){
         if (80 * limitLeft > posX) {
             setRight(true);
-            posY += 50;
+            posY += 30;
         }
         if (posX > 800 -  80 * limitRight){
             setLeft(true);
-            posY += 50;
+            posY += 30;
         }
 
         if (right){
@@ -128,7 +134,7 @@ public class Invader {
 
     }
 
-    public Rectangle2D getFronter(){
+    public Rectangle2D getFrontier(){
         return new Rectangle2D(posX, posY, width, height);
     }
 
@@ -188,6 +194,10 @@ public class Invader {
 
     public double getMovesToLeft() {
         return movesToLeft;
+    }
+
+    public int getScore(){
+        return this.score;
     }
 
 }

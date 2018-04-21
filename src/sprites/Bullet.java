@@ -106,7 +106,7 @@ public class Bullet {
      * @return true si la bala esta chocando con un enemigo.
      */
     public boolean isColliding(Invader invader){
-        return invader.getFronter().intersects(this.getFrontier());
+        return invader.getFrontier().intersects(this.getFrontier());
     }
 
 }

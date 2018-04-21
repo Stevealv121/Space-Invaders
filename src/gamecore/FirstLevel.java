@@ -171,8 +171,9 @@ public class FirstLevel extends GameEngine{
         nextRowLabel.setText(nextRow);
 
         String currentLevel = "Nivel 1";
-        levelRow.setText(currentLevel);
+        levelLabel.setText(currentLevel);
 
+        scoreLabel.setText("Puntaje: "+score);
 
     }
 
@@ -237,6 +238,7 @@ public class FirstLevel extends GameEngine{
                     } else {
                         if (invadersMatrix.getAtPos(current).size() > 0)
                             lastX = invadersMatrix.getAtPos(current).getAtPos(0).getX();
+                        score += invadersMatrix.getAtPos(current).getAtPos(k).getScore();
                         invadersMatrix.getAtPos(current).removeAtPos(k);
                         bullets.removeAtPos(j);
 
@@ -265,6 +267,7 @@ public class FirstLevel extends GameEngine{
             if (invaderList.getAtPos(i).getLife() != 1)
                 invaderList.getAtPos(i).setLife(invaderList.getAtPos(i).getLife() - 1);
             else {
+                score += invaderList.getAtPos(i).getScore();
                 Invader.speed += 0.25;
                 current++;
             }

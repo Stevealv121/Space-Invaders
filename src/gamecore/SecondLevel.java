@@ -101,8 +101,8 @@ public class SecondLevel extends GameEngine {
         nextRowLabel.setText(nextRow);
 
         String currentLevel = "Nivel 2";
-        levelRow.setText(currentLevel);
-
+        levelLabel.setText(currentLevel);
+        scoreLabel.setText("Puntaje: "+score);
     }
 
 
@@ -159,6 +159,7 @@ public class SecondLevel extends GameEngine {
                         if (lastX >= 800 - 80 * invaderList.size())
                             lastX = (800 - 80 * invaderList.size()) - 1;
 
+                        score += invaderList.getAtPos(j).getScore();
                         invaderList.removeAtPos(j);
                         bullets.removeAtPos(i);
 
@@ -188,6 +189,7 @@ public class SecondLevel extends GameEngine {
                 invaderList.getAtPos(i).setLife(invaderList.getAtPos(i).getLife() - 1);
             else
             if (type.equals("ClassB") || type.equals("ClassA") || (type.equals("ClassC") && invaderList.size() == 1)){
+                score += invaderList.getAtPos(i).getScore();
                 current++;
             }
             else if(type.equals("ClassC"))

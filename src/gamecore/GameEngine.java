@@ -10,7 +10,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import sprites.Invader;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -18,10 +17,27 @@ import java.io.FileNotFoundException;
  * GameEngine: Motor del juego.
  */
 public abstract class GameEngine {
-
+    /**
+     * Row Label
+     */
     Label rowLabel;
+    /**
+     * Next row label
+     */
     Label nextRowLabel;
-    Label levelRow;
+    /**
+     * Level Label
+     */
+    Label levelLabel;
+    /**
+     * Score label
+     */
+    Label scoreLabel;
+
+    /**
+     * Score
+     */
+    static int score;
 
     /**
      * Actualiza cada animacion en el juego.
@@ -59,16 +75,27 @@ public abstract class GameEngine {
         nextRowLabel.setTextFill(Color.valueOf("FFFFFF"));
         anchorPane.getChildren().add(nextRowLabel);
 
-        levelRow = new Label();
+        scoreLabel = new Label();
         try {
-            levelRow.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+            scoreLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        levelRow.setTranslateX(10);
-        levelRow.setTranslateY(600-30);
-        levelRow.setTextFill(Color.valueOf("FFFFFF"));
-        anchorPane.getChildren().add(levelRow);
+        scoreLabel.setTranslateX(10);
+        scoreLabel.setTranslateY(0);
+        scoreLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(scoreLabel);
+
+        levelLabel = new Label();
+        try {
+            levelLabel.setFont(Font.loadFont(new FileInputStream("src/font/space_invaders.ttf"),13));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        levelLabel.setTranslateX(10);
+        levelLabel.setTranslateY(600-30);
+        levelLabel.setTextFill(Color.valueOf("FFFFFF"));
+        anchorPane.getChildren().add(levelLabel);
     }
 
     /**
@@ -140,6 +167,7 @@ public abstract class GameEngine {
                 invaderList.removeAtPos(bossPos);
 
             else{
+                score =+ invaderList.getAtPos(bossPos).getScore();
                 invaderList.removeAtPos(bossPos);
 
                 invaderList.getAtPos(randomChange).setInvaderType("Boss");

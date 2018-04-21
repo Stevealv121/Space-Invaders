@@ -79,7 +79,8 @@ public class ThirdLevel extends GameEngine{
         nextRowLabel.setText(nextRow);
 
         String currentLevel = "Nivel 3";
-        levelRow.setText(currentLevel);
+        levelLabel.setText(currentLevel);
+        scoreLabel.setText("Puntaje: "+score);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class ThirdLevel extends GameEngine{
         ,"images/Spaceship.png","images/ELxFZ.png","images/ospaceship-main.png"
         ,"images/1.png"};
 
-        String bossImages = "images/invader.png";
+        String bossImage = "images/invader.png";
 
         int boss = 0;
         if (!invaderList.getType().equals("ClassE"))
@@ -136,7 +137,7 @@ public class ThirdLevel extends GameEngine{
                 int life = (int) (Math.random() * 5) + 1;
 
                 if (i == 3)
-                    invaderList.add(new Invader(new Image(bossImages,80,75,true,false)
+                    invaderList.add(new Invader(new Image(bossImage,80,75,true,false)
                             ,80 * i + 110, 30
                              , i, xPos, "Boss"));
                 else {
@@ -150,7 +151,7 @@ public class ThirdLevel extends GameEngine{
             for (int i = 0; i < 7; i++) {
                 int life = (int) (Math.random() * 6) + 1;
                 if (i == boss)
-                    invaderList.add(new Invader(new Image(bossImages,75,75,true,false)
+                    invaderList.add(new Invader(new Image(bossImage,75,75,true,false)
                             ,80 * i, yPos, i, xPos, "Boss"));
                 else {
                     invaderList.add(new Invader(new Image(minionsImages[i],70,70,true,false)
@@ -176,27 +177,23 @@ public class ThirdLevel extends GameEngine{
                         invaderList.getAtPos(j).setLife(invaderList.getAtPos(j).getLife() - 1);
                     else {
                         if (invaderList.getType().equals("ClassD") || invaderList.getType().equals("ClassE")){
-                            boolean isBoss = invaderList.getAtPos(j).getInvaderType().equals("Boss");
-                            int toReplace = 0;
-
+                            score += invaderList.getAtPos(j).getScore();
                             invaderList.removeAtPos(j);
-                            if(invaderList.getType().equals("ClassE"))
-                                toReplace = (invaderList.size() - (invaderList.size() + 1) / 2);
-
-                            if (isBoss) {
-                                invaderList.getAtPos(toReplace).setInvaderType("Boss");
-                            }
                         }
                         else if (invaderList.getType().equals("ClassC")){
                             boolean isBoss = invaderList.getAtPos(j).getInvaderType().equals("Boss");
-                            invaderList.removeAtPos(j);
-                            if(isBoss)
+                            score += invaderList.getAtPos(j).getScore();
+                            if(!isBoss||invaderList.size()==1)
+                                invaderList.removeAtPos(j);
+                            else
                                 doSwitch(invaderList, "ClassC");
                         }
                         else if (invaderList.getType().equals("ClassB") && invaderList.getAtPos(j).getInvaderType().equals("Boss")){
+                            score += invaderList.getAtPos(j).getScore();
                             current++;
                         }
                         else{
+                            score += invaderList.getAtPos(j).getScore();
                             invaderList.removeAtPos(j);
                         }
 
