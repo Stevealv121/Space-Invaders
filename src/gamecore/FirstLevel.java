@@ -24,9 +24,13 @@ public class FirstLevel extends GameEngine{
      */
     private Stage primaryStage;
     /**
-     * Escena primer nivel.
+     * Escena segundo nivel.
      */
     private Scene secondStageScene;
+    /**
+     * Escena fin del juego.
+     */
+    private Scene endStageScene;
 
     /**
      * Atributo jugador.
@@ -49,11 +53,13 @@ public class FirstLevel extends GameEngine{
      * @param anchorPane Nivel 1.
      * @param primaryStage Stage base.
      * @param secondStageScene Escena nivel 2.
+     * @param endStageScene Escena fin.
      */
-    FirstLevel(AnchorPane anchorPane, Stage primaryStage, Scene secondStageScene) {
+    FirstLevel(AnchorPane anchorPane, Stage primaryStage, Scene secondStageScene, Scene endStageScene) {
         this.anchorPane = anchorPane;
         this.primaryStage = primaryStage;
         this.secondStageScene = secondStageScene;
+        this.endStageScene = endStageScene;
 
         player = new Defender(new Image("images/ship1.png"),new Image("images/ship1-x1.png"),
                 new Image("images/ship1+x.png"),800/2-30, 600-60);
@@ -206,6 +212,12 @@ public class FirstLevel extends GameEngine{
             for (int i = 0; i < invadersMatrix.getAtPos(current).size(); i++) {
                 Invader invader = invadersMatrix.getAtPos(current).getAtPos(i);
                 invader.update();
+
+                if (invader.getY() > 600-80){
+                    primaryStage.setScene(endStageScene);
+                    End.condition = "Defeat";
+                    SpaceInvadersGame.levelNumber = 4;
+                }
             }
         }
 

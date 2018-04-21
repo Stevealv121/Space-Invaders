@@ -43,9 +43,13 @@ public class SecondLevel extends GameEngine {
      */
     private Stage primaryStage;
     /**
-     * Escena segundo nivel.
+     * Escena tercer nivel.
      */
     private Scene thirdStageScene;
+    /**
+     * Escena fin del juego.
+     */
+    private Scene endStageScene;
     /**
      * Hileras actuales.
      */
@@ -56,11 +60,13 @@ public class SecondLevel extends GameEngine {
      * @param anchorPane Nivel 2.
      * @param primaryStage Stage base.
      * @param thirdStageScene Escena nivel 3.
+     * @param endStageScene Escena fin.
      */
-    SecondLevel(AnchorPane anchorPane, Stage primaryStage, Scene thirdStageScene){
+    SecondLevel(AnchorPane anchorPane, Stage primaryStage, Scene thirdStageScene,Scene endStageScene){
         this.anchorPane = anchorPane;
         this.primaryStage = primaryStage;
         this.thirdStageScene = thirdStageScene;
+        this.endStageScene = endStageScene;
 
         player = new Defender(new Image("images/ship1.png"),new Image("images/ship1-x1.png"),new Image("images/ship1+x.png"),800/2-30, 600-60);
         bullets = new LinkedList<>();
@@ -126,6 +132,11 @@ public class SecondLevel extends GameEngine {
         if (current != invadersMatrix.size() - 1){
             for (int i = 0; i < invadersMatrix.getAtPos(current).size(); i++) {
                 invadersMatrix.getAtPos(current).getAtPos(i).update();
+                if (invadersMatrix.getAtPos(current).getAtPos(i).getY() > 600-80){
+                    End.condition = "Defeat";
+                    SpaceInvadersGame.levelNumber = 4;
+                    primaryStage.setScene(endStageScene);
+                }
             }
         }
 

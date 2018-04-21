@@ -3,9 +3,11 @@ package gamecore;
 import adt.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import sprites.Bullet;
 import sprites.Defender;
@@ -18,6 +20,14 @@ public class ThirdLevel extends GameEngine{
      * Contiene el nivel 3.
      */
     private AnchorPane anchorPane;
+    /**
+     * Principal Stage.
+     */
+    private Stage primaryStage;
+    /**
+     * Scene Fin.
+     */
+    private Scene endStageScene;
 
     /**
      * Atributo jugador.
@@ -36,9 +46,13 @@ public class ThirdLevel extends GameEngine{
     /**
      * Contructor del primer nivel.
      * @param anchorPane Almacena el Nivel 3.
+     * @param primaryStage Base Stage.
+     * @param endStageScene Scene fin.
      */
-    ThirdLevel(AnchorPane anchorPane){
+    ThirdLevel(AnchorPane anchorPane,Stage primaryStage, Scene endStageScene){
         this.anchorPane = anchorPane;
+        this.primaryStage = primaryStage;
+        this.endStageScene = endStageScene;
 
         player = new Defender(new Image("images/ship1.png"),new Image("images/ship1-x1.png"),new Image("images/ship1+x.png"),800/2-30, 600-60);
         bullets = new LinkedList<>();
@@ -104,6 +118,11 @@ public class ThirdLevel extends GameEngine{
             if (!invadersMatrix.getAtPos(current).getType().equals("ClassE")){
                 for (int i = 0; i < invadersMatrix.getAtPos(current).size(); i++) {
                     invadersMatrix.getAtPos(current).getAtPos(i).update();
+                    if (invadersMatrix.getAtPos(current).getAtPos(i).getY() > 600-80){
+                        SpaceInvadersGame.levelNumber = 4;
+                        End.condition = "Defeat";
+                        primaryStage.setScene(endStageScene);
+                    }
                 }
             } else{
                 if (eRun){
@@ -111,6 +130,10 @@ public class ThirdLevel extends GameEngine{
                     eRun = false;
                 }
             }
+        }else {
+            SpaceInvadersGame.levelNumber = 4;
+            End.condition = "Victory";
+            primaryStage.setScene(endStageScene);
         }
     }
 
@@ -188,6 +211,14 @@ public class ThirdLevel extends GameEngine{
                             else
                                 doSwitch(invaderList, "ClassC");
                         }
+                        else if (invaderList.getType().equals("ClassC")){
+                            boolean isBoss = invaderList.getAtPos(j).getInvaderType().equals("Boss");
+                            score += invaderList.getAtPos(j).getScore();
+                            if(!isBoss||invaderList.size()==1)
+                                invaderList.removeAtPos(j);
+                            else
+                                doSwitch(invaderList, "ClassC");
+                        }
                         else if (invaderList.getType().equals("ClassB") && invaderList.getAtPos(j).getInvaderType().equals("Boss")){
                             score += invaderList.getAtPos(j).getScore();
                             current++;
@@ -232,6 +263,11 @@ public class ThirdLevel extends GameEngine{
             }
 
             invaderList.getAtPos(bossPos).bossUpdate(bossPos, xPos);
+            if (invaderList.getAtPos(bossPos).getY() > 600-80){
+                End.condition = "Defeat";
+                SpaceInvadersGame.levelNumber = 4;
+                primaryStage.setScene(endStageScene);
+            }
             x = invaderList.getAtPos(bossPos).getX();
             y = invaderList.getAtPos(bossPos).getY();
 

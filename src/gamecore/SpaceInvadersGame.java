@@ -79,17 +79,23 @@ public class SpaceInvadersGame{
         canvas3 = new Canvas(WIDTH, HEIGHT);
         thirdStagePane.getChildren().add(canvas3);
 
+        //EndGame
+        AnchorPane endStagePane = new AnchorPane();
+        Scene endStageScene = new Scene(endStagePane,WIDTH,HEIGHT);
+
 
         Intro intro = new Intro(introPane, primaryStage, firstStageScene);
-        FirstLevel firstLevelState = new FirstLevel(firstStagePane, primaryStage, secondStageScene);
-        SecondLevel secondLevelState = new SecondLevel(secondStagePane, primaryStage, thirdStageScene);
-        ThirdLevel thirdLevelState = new ThirdLevel(thirdStagePane);
+        FirstLevel firstLevelState = new FirstLevel(firstStagePane, primaryStage, secondStageScene, endStageScene);
+        SecondLevel secondLevelState = new SecondLevel(secondStagePane, primaryStage, thirdStageScene, endStageScene);
+        ThirdLevel thirdLevelState = new ThirdLevel(thirdStagePane,primaryStage, endStageScene);
+        End endGame = new End(endStagePane,primaryStage);
 
         levelList = new LinkedList<>();
         levelList.add(intro);
         levelList.add(firstLevelState);
         levelList.add(secondLevelState);
         levelList.add(thirdLevelState);
+        levelList.add(endGame);
 
         primaryStage.setScene(introScene);
     }
