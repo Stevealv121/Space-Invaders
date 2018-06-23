@@ -91,7 +91,7 @@ public class Intro extends GameEngine{
         anchorPane.getScene().setOnKeyPressed(
                 (keyEvent)->{
                     if(keyEvent.getCode()==KeyCode.ENTER){
-                        System.out.println("works");
+                        //System.out.println("works");
                         primaryStage.setScene(firstStageScene);
                         SpaceInvadersGame.levelNumber++;
 

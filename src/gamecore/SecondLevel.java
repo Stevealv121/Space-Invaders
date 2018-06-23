@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.Server;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
@@ -55,6 +56,8 @@ public class SecondLevel extends GameEngine {
      */
     private int current;
 
+    //private Server server;
+
     /**
      * Contructor del primer nivel.
      * @param anchorPane Nivel 2.
@@ -71,10 +74,14 @@ public class SecondLevel extends GameEngine {
         player = new Defender(new Image("images/ship1.png"),new Image("images/ship1-x1.png"),new Image("images/ship1+x.png"),800/2-30, 600-60);
         bullets = new LinkedList<>();
 
+        //server = Server.getServer();
+
         invadersMatrix = new LinkedList<>();
         makeBackground(anchorPane);
         generateRows();
         makeLabels(anchorPane);
+        //server.setPlayer(player);
+        //server.setBullets(bullets);
 
     }
 
@@ -142,7 +149,7 @@ public class SecondLevel extends GameEngine {
 
         if (invadersMatrix.getAtPos(current).size() == 0) {
             current++;
-            Invader.speed += 0.25;
+            Invader.speed += 1;
         }
     }
 

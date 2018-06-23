@@ -50,7 +50,7 @@ public class Bullet {
      * @param speed velocidad bala.
      */
 
-    Bullet(Image image, double x, double y, double speed) {
+    public Bullet(Image image, double x, double y, double speed) {
         this.image = image;
         this.speed = speed;
         this.width = image.getWidth();

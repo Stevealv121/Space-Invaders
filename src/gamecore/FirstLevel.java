@@ -1,6 +1,7 @@
 package gamecore;
 
 import adt.LinkedList;
+import server.Server;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 import sprites.Bullet;
 import sprites.Defender;
 import sprites.Invader;
+
+import java.io.IOException;
 
 /**
  * Nivel 1.
@@ -48,6 +51,8 @@ public class FirstLevel extends GameEngine{
      */
     private int current;
 
+    private Server server;
+
     /**
      * Contructor del primer nivel.
      * @param anchorPane Nivel 1.
@@ -67,9 +72,12 @@ public class FirstLevel extends GameEngine{
 
         invadersMatrix = new LinkedList<>();
 
+        server = Server.getServer();
+
         makeBackground(anchorPane);
         generateRows();
         makeLabels(anchorPane);
+        connectSever();
     }
 
     /**
@@ -223,7 +231,7 @@ public class FirstLevel extends GameEngine{
 
         if (invadersMatrix.getAtPos(current).size() == 0) {
             current++;
-            Invader.speed += 0.25;
+            Invader.speed += 2;
         }
     }
 
@@ -280,9 +288,25 @@ public class FirstLevel extends GameEngine{
                 invaderList.getAtPos(i).setLife(invaderList.getAtPos(i).getLife() - 1);
             else {
                 score += invaderList.getAtPos(i).getScore();
-                Invader.speed += 0.25;
+                Invader.speed += 2;
                 current++;
             }
         }
+    }
+
+    private void connectSever() {
+        server.setPlayer(player);
+        server.setBullets(bullets);
+
+        //Permite correr el servidor sin que el thread principal deje de correr la interfaz del juego
+        Thread thread = new Thread(() -> {
+            try {
+                server.run();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 }
